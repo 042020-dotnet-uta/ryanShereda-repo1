@@ -33,7 +33,7 @@ namespace Week3GroupDemo.Controllers
                 return NotFound();
             }
 
-            var game = await _context.Game
+            var game = await _context.Game.Include(r => r.Rating)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (game == null)
             {
@@ -56,6 +56,7 @@ namespace Week3GroupDemo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,ReleaseDate,Genre,Rating")] Game game)
         {
+            game.Rating = _context.Rating.Where(r => r.Rating == game.Rating.Rating).FirstOrDefault();
             if (ModelState.IsValid)
             {
                 _context.Add(game);
