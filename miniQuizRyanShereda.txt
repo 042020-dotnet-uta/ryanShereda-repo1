@@ -1,17 +1,17 @@
 1: Which error is returned when a response is received from an upstream server deemed invalid?
 -504 Gateway Timeout
--502 Bad Gateway
+-502 Bad Gateway ***
 -417 Expectation Failed
 -406 Not Acceptable
 
 2: Which of the following is NOT a valid format for an <image> element?
 -GIF
 -TIFF
--RAW
+-RAW ***
 -BMP
 
 3: Which of the following provides protection from a stack overflow during validation?
--MaxValidationDepth
+-MaxValidationDepth ***
 -MaxModelValidationErrors
 -MaxValidation
 -CatchOverflow
@@ -19,11 +19,11 @@
 4: Which of the following is not true about Tag Helpers?
 -They provide an HTML-Friendly development experience
 -They are a way to make you more productive and able to produce more robust, reliable, and maintainable code
--They are a means of enforcing loose coupling on the elements of an MVC controller
+-They are a means of enforcing loose coupling on the elements of an MVC controller ***
 -They provide a rich IntelliSense environment for creating HTML and Razor markup
 
 5: Which of the following is not a valid Razor expression?
 -<p>@Username</p>
--<p>@@Password</p>
+-<p>@@Password</p> ***
 -<p>@DateTime.Now</p>
 -<p>@await DoSomething("hello", "world")</p>
