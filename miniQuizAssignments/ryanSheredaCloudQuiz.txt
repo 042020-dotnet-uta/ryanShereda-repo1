@@ -1,0 +1,29 @@
+1. Which of the following is not a top benefit of cloud computing?
+- Cost
+- Speed
+- Accessibility ***
+- Performance
+
+2. Which of the following does "Serverless computing" most overlap with?
+- SaaS
+- IaaS
+- On-Premises
+- PaaS ***
+
+3. Which is not one of the three primary aspects to consider when selecting a cloud service provider?
+- Business health and processes
+- Technical limitations and programs ***
+- Security practices
+- Administration support
+
+4. Which of the following is not a use of cloud computing?
+- Analyze data
+- Stream audio and video
+- Deliver hardware on demand ***
+- Create cloud-native applications
+
+5. Which of the following is an example of an advantage of the Platform as a Service model?
+- Use sophisticated tools affordably ***
+- consistent coding time
+- Efficiently deploy the application lifecycle
+- Add staff without adding development requirements
