@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore;
+using BitsAndBobs.Data;
 
 namespace BitsAndBobs.WebApp
 {
@@ -24,6 +27,8 @@ namespace BitsAndBobs.WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddDbContext<BitsAndBobsContext>(options => options.UseSqlServer(Configuration.GetConnectionString("BitsAndBobsContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
