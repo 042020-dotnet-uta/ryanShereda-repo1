@@ -1,6 +1,6 @@
 using System;
 
-namespace BitsAndBobsASP.Models
+namespace BitsAndBobs.WebApp.Models
 {
     public class ErrorViewModel
     {
