@@ -1,0 +1,29 @@
+1. Which development cycle is most useful then the client's needs are likely to change rapidly over the course of development?
+-Agile ***
+-V-Model
+-Iterative
+-Waterfall
+
+2. Which of the following is not a basic activity of a Spiral cycle?
+-Identify and resolve risks that stem from the selected approach(es)
+-Consider the win conditions of all success-critical stakeholders
+-Identify and evaluate existing approaches for satisfying the win conditions ***
+-Obtain approval from all success-critical stakeholders, plus commitment to pursue next cycle
+
+3. How does the Kanban Model prevent large backups in work?
+-WIP limits show where bottlenecks are early ***
+-The movement of tasks between sections helps promote timeliness
+-Employees are encouraged to look at the big picture when working
+-Encourages starting from the beginning and making continuous improvements
+
+4. Which is not a principle of the Agile Manifesto?
+-Business people and developers together must work together daily throughout the project.
+-Working software is the primary measure of progress.
+-Comprehension--the art of maximizing the effectiveness of your work--is essential. ***
+At regular intervals, the team reflects on how to become more effective, then tunes and adjusts its behavior accordingly.
+
+5. What is the purpose of a scrum master?
+-Ensure the project maintains a steady rate of completion to meet deadlines
+-Enforce SOLID Principles throughout the project
+-Speak on behalf of the group to potential clients and investors
+-Make sure the team lives agile values and principles, following agreed practices and processes ***
