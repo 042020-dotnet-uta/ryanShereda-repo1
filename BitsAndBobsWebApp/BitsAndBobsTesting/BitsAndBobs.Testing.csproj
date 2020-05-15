@@ -24,4 +24,10 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BitsAndBobs.BusinessLogic\BitsAndBobs.BusinessLogic.csproj" />
+    <ProjectReference Include="..\BitsAndBobs.Data\BitsAndBobs.Data.csproj" />
+    <ProjectReference Include="..\BitsAndBobsAPP\BitsAndBobs.WebApp.csproj" />
+  </ItemGroup>
+
 </Project>

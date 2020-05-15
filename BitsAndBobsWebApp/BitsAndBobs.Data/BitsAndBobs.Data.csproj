@@ -12,4 +12,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BitsAndBobs.BusinessLogic\BitsAndBobs.BusinessLogic.csproj" />
+  </ItemGroup>
+
 </Project>
