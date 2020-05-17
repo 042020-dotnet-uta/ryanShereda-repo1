@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BitsAndBobs.Data.Migrations
 {
     [DbContext(typeof(BitsAndBobsContext))]
-    [Migration("20200515211716_InitialCreate")]
+    [Migration("20200517034742_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,7 +21,7 @@ namespace BitsAndBobs.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("BitsAndBobs.Data.DataModels.Customer", b =>
+            modelBuilder.Entity("BitsAndBobs.BuildModels.Customer", b =>
                 {
                     b.Property<int>("CustomerID")
                         .ValueGeneratedOnAdd()
@@ -42,7 +42,7 @@ namespace BitsAndBobs.Data.Migrations
                     b.ToTable("CustomersDB");
                 });
 
-            modelBuilder.Entity("BitsAndBobs.Data.DataModels.Inventory", b =>
+            modelBuilder.Entity("BitsAndBobs.BuildModels.Inventory", b =>
                 {
                     b.Property<int>("InventoryID")
                         .ValueGeneratedOnAdd()
@@ -67,62 +67,22 @@ namespace BitsAndBobs.Data.Migrations
                     b.ToTable("InventoryDB");
                 });
 
-            modelBuilder.Entity("BitsAndBobs.Data.DataModels.Location", b =>
+            modelBuilder.Entity("BitsAndBobs.BuildModels.Location", b =>
                 {
                     b.Property<int>("LocationID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("LocationAddress")
+                    b.Property<string>("LocationCity")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("LocationCountryID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("LocationStateID")
-                        .HasColumnType("int");
-
                     b.HasKey("LocationID");
-
-                    b.HasIndex("LocationCountryID");
-
-                    b.HasIndex("LocationStateID");
 
                     b.ToTable("LocationsDB");
                 });
 
-            modelBuilder.Entity("BitsAndBobs.Data.DataModels.LocationCountry", b =>
-                {
-                    b.Property<int>("LocationCountryID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("LocationCountryID");
-
-                    b.ToTable("LocationCountry");
-                });
-
-            modelBuilder.Entity("BitsAndBobs.Data.DataModels.LocationState", b =>
-                {
-                    b.Property<int>("LocationStateID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("State")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("LocationStateID");
-
-                    b.ToTable("LocationState");
-                });
-
-            modelBuilder.Entity("BitsAndBobs.Data.DataModels.Order", b =>
+            modelBuilder.Entity("BitsAndBobs.BuildModels.Order", b =>
                 {
                     b.Property<int>("OrderID")
                         .ValueGeneratedOnAdd()
@@ -147,15 +107,12 @@ namespace BitsAndBobs.Data.Migrations
                     b.ToTable("OrdersDB");
                 });
 
-            modelBuilder.Entity("BitsAndBobs.Data.DataModels.OrderLineItem", b =>
+            modelBuilder.Entity("BitsAndBobs.BuildModels.OrderLineItem", b =>
                 {
                     b.Property<int>("OrderLineItemID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("LineItemOrderOrderID")
-                        .HasColumnType("int");
 
                     b.Property<int?>("LineItemProductProductID")
                         .HasColumnType("int");
@@ -163,19 +120,22 @@ namespace BitsAndBobs.Data.Migrations
                     b.Property<double>("LinePrice")
                         .HasColumnType("float");
 
+                    b.Property<int?>("OrderID")
+                        .HasColumnType("int");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.HasKey("OrderLineItemID");
 
-                    b.HasIndex("LineItemOrderOrderID");
-
                     b.HasIndex("LineItemProductProductID");
+
+                    b.HasIndex("OrderID");
 
                     b.ToTable("OrderLineItemsDB");
                 });
 
-            modelBuilder.Entity("BitsAndBobs.Data.DataModels.Product", b =>
+            modelBuilder.Entity("BitsAndBobs.BuildModels.Product", b =>
                 {
                     b.Property<int>("ProductID")
                         .ValueGeneratedOnAdd()
@@ -193,48 +153,37 @@ namespace BitsAndBobs.Data.Migrations
                     b.ToTable("ProductsDB");
                 });
 
-            modelBuilder.Entity("BitsAndBobs.Data.DataModels.Inventory", b =>
+            modelBuilder.Entity("BitsAndBobs.BuildModels.Inventory", b =>
                 {
-                    b.HasOne("BitsAndBobs.Data.DataModels.Location", "InventoryLocation")
+                    b.HasOne("BitsAndBobs.BuildModels.Location", "InventoryLocation")
                         .WithMany()
                         .HasForeignKey("InventoryLocationLocationID");
 
-                    b.HasOne("BitsAndBobs.Data.DataModels.Product", "InventoryProduct")
+                    b.HasOne("BitsAndBobs.BuildModels.Product", "InventoryProduct")
                         .WithMany()
                         .HasForeignKey("InventoryProductProductID");
                 });
 
-            modelBuilder.Entity("BitsAndBobs.Data.DataModels.Location", b =>
+            modelBuilder.Entity("BitsAndBobs.BuildModels.Order", b =>
                 {
-                    b.HasOne("BitsAndBobs.Data.DataModels.LocationCountry", "LocationCountry")
-                        .WithMany()
-                        .HasForeignKey("LocationCountryID");
-
-                    b.HasOne("BitsAndBobs.Data.DataModels.LocationState", "LocationState")
-                        .WithMany()
-                        .HasForeignKey("LocationStateID");
-                });
-
-            modelBuilder.Entity("BitsAndBobs.Data.DataModels.Order", b =>
-                {
-                    b.HasOne("BitsAndBobs.Data.DataModels.Customer", "OrderCustomer")
+                    b.HasOne("BitsAndBobs.BuildModels.Customer", "OrderCustomer")
                         .WithMany()
                         .HasForeignKey("OrderCustomerCustomerID");
 
-                    b.HasOne("BitsAndBobs.Data.DataModels.Location", "OrderLocation")
+                    b.HasOne("BitsAndBobs.BuildModels.Location", "OrderLocation")
                         .WithMany()
                         .HasForeignKey("OrderLocationLocationID");
                 });
 
-            modelBuilder.Entity("BitsAndBobs.Data.DataModels.OrderLineItem", b =>
+            modelBuilder.Entity("BitsAndBobs.BuildModels.OrderLineItem", b =>
                 {
-                    b.HasOne("BitsAndBobs.Data.DataModels.Order", "LineItemOrder")
-                        .WithMany()
-                        .HasForeignKey("LineItemOrderOrderID");
-
-                    b.HasOne("BitsAndBobs.Data.DataModels.Product", "LineItemProduct")
+                    b.HasOne("BitsAndBobs.BuildModels.Product", "LineItemProduct")
                         .WithMany()
                         .HasForeignKey("LineItemProductProductID");
+
+                    b.HasOne("BitsAndBobs.BuildModels.Order", null)
+                        .WithMany("OrderLineItems")
+                        .HasForeignKey("OrderID");
                 });
 #pragma warning restore 612, 618
         }

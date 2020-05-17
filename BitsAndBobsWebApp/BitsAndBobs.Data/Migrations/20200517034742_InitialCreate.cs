@@ -23,29 +23,16 @@ namespace BitsAndBobs.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "LocationCountry",
+                name: "LocationsDB",
                 columns: table => new
                 {
-                    LocationCountryID = table.Column<int>(nullable: false)
+                    LocationID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Country = table.Column<string>(nullable: true)
+                    LocationCity = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LocationCountry", x => x.LocationCountryID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "LocationState",
-                columns: table => new
-                {
-                    LocationStateID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    State = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LocationState", x => x.LocationStateID);
+                    table.PrimaryKey("PK_LocationsDB", x => x.LocationID);
                 });
 
             migrationBuilder.CreateTable(
@@ -63,29 +50,29 @@ namespace BitsAndBobs.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "LocationsDB",
+                name: "OrdersDB",
                 columns: table => new
                 {
-                    LocationID = table.Column<int>(nullable: false)
+                    OrderID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    LocationAddress = table.Column<string>(nullable: true),
-                    LocationStateID = table.Column<int>(nullable: true),
-                    LocationCountryID = table.Column<int>(nullable: true)
+                    OrderCustomerCustomerID = table.Column<int>(nullable: true),
+                    OrderLocationLocationID = table.Column<int>(nullable: true),
+                    OrderDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LocationsDB", x => x.LocationID);
+                    table.PrimaryKey("PK_OrdersDB", x => x.OrderID);
                     table.ForeignKey(
-                        name: "FK_LocationsDB_LocationCountry_LocationCountryID",
-                        column: x => x.LocationCountryID,
-                        principalTable: "LocationCountry",
-                        principalColumn: "LocationCountryID",
+                        name: "FK_OrdersDB_CustomersDB_OrderCustomerCustomerID",
+                        column: x => x.OrderCustomerCustomerID,
+                        principalTable: "CustomersDB",
+                        principalColumn: "CustomerID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_LocationsDB_LocationState_LocationStateID",
-                        column: x => x.LocationStateID,
-                        principalTable: "LocationState",
-                        principalColumn: "LocationStateID",
+                        name: "FK_OrdersDB_LocationsDB_OrderLocationLocationID",
+                        column: x => x.OrderLocationLocationID,
+                        principalTable: "LocationsDB",
+                        principalColumn: "LocationID",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -117,57 +104,30 @@ namespace BitsAndBobs.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrdersDB",
-                columns: table => new
-                {
-                    OrderID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderCustomerCustomerID = table.Column<int>(nullable: true),
-                    OrderLocationLocationID = table.Column<int>(nullable: true),
-                    OrderDate = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OrdersDB", x => x.OrderID);
-                    table.ForeignKey(
-                        name: "FK_OrdersDB_CustomersDB_OrderCustomerCustomerID",
-                        column: x => x.OrderCustomerCustomerID,
-                        principalTable: "CustomersDB",
-                        principalColumn: "CustomerID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_OrdersDB_LocationsDB_OrderLocationLocationID",
-                        column: x => x.OrderLocationLocationID,
-                        principalTable: "LocationsDB",
-                        principalColumn: "LocationID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "OrderLineItemsDB",
                 columns: table => new
                 {
                     OrderLineItemID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    LineItemOrderOrderID = table.Column<int>(nullable: true),
                     LineItemProductProductID = table.Column<int>(nullable: true),
                     Quantity = table.Column<int>(nullable: false),
-                    LinePrice = table.Column<double>(nullable: false)
+                    LinePrice = table.Column<double>(nullable: false),
+                    OrderID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OrderLineItemsDB", x => x.OrderLineItemID);
                     table.ForeignKey(
-                        name: "FK_OrderLineItemsDB_OrdersDB_LineItemOrderOrderID",
-                        column: x => x.LineItemOrderOrderID,
-                        principalTable: "OrdersDB",
-                        principalColumn: "OrderID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_OrderLineItemsDB_ProductsDB_LineItemProductProductID",
                         column: x => x.LineItemProductProductID,
                         principalTable: "ProductsDB",
                         principalColumn: "ProductID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_OrderLineItemsDB_OrdersDB_OrderID",
+                        column: x => x.OrderID,
+                        principalTable: "OrdersDB",
+                        principalColumn: "OrderID",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -182,24 +142,14 @@ namespace BitsAndBobs.Data.Migrations
                 column: "InventoryProductProductID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LocationsDB_LocationCountryID",
-                table: "LocationsDB",
-                column: "LocationCountryID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_LocationsDB_LocationStateID",
-                table: "LocationsDB",
-                column: "LocationStateID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OrderLineItemsDB_LineItemOrderOrderID",
-                table: "OrderLineItemsDB",
-                column: "LineItemOrderOrderID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_OrderLineItemsDB_LineItemProductProductID",
                 table: "OrderLineItemsDB",
                 column: "LineItemProductProductID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderLineItemsDB_OrderID",
+                table: "OrderLineItemsDB",
+                column: "OrderID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrdersDB_OrderCustomerCustomerID",
@@ -221,22 +171,16 @@ namespace BitsAndBobs.Data.Migrations
                 name: "OrderLineItemsDB");
 
             migrationBuilder.DropTable(
-                name: "OrdersDB");
+                name: "ProductsDB");
 
             migrationBuilder.DropTable(
-                name: "ProductsDB");
+                name: "OrdersDB");
 
             migrationBuilder.DropTable(
                 name: "CustomersDB");
 
             migrationBuilder.DropTable(
                 name: "LocationsDB");
-
-            migrationBuilder.DropTable(
-                name: "LocationCountry");
-
-            migrationBuilder.DropTable(
-                name: "LocationState");
         }
     }
 }
