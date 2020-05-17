@@ -19,6 +19,7 @@ namespace BitsAndBobs.BuildModels
 		/// Property for the name of the product.
 		/// </summary>
 		[Display(Name = "Product Name")]
+		[Required]
 		public String ProductName { get; set; }
 
 		/// <summary>

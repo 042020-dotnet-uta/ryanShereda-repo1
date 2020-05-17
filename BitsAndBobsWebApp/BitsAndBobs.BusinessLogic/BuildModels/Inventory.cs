@@ -18,12 +18,14 @@ namespace BitsAndBobs.BuildModels
 		/// Property for the Inventory location
 		/// </summary>
 		[Display(Name = "Inventory Location")]
+		[Required]
 		public Location InventoryLocation { get; set; }
 
 		/// <summary>
 		/// Property for the Inventory product
 		/// </summary>
 		[Display(Name = "Inventory Product")]
+		[Required]
 		public Product InventoryProduct { get; set; }
 
 		/// <summary>
