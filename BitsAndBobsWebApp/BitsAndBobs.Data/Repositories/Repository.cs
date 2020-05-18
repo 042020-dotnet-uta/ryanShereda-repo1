@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BitsAndBobs.BusinessLogic.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace BitsAndBobs.Data.Repositories
 {
@@ -16,19 +17,19 @@ namespace BitsAndBobs.Data.Repositories
             Context = context;
         }
 
-        public void Add(TEntity entity)
+        //public void Add(TEntity entity)
+        //{
+        //    Context.Set<TEntity>().Add(entity);
+        //}
+
+        public TEntity Get(int id)
         {
-            Context.Set<TEntity>().Add(entity);
+            return Context.Set<TEntity>().Find(id); //Use generic Set() method because generic repository has no DbSets to reference
         }
 
-        public async Task<TEntity> Get(int id)
+        public IEnumerable<TEntity> GetAll()
         {
-            return await Context.Set<TEntity>().FindAsync(id); //Use generic Set() method because generic repository has no DbSets to reference
-        }
-
-        public async Task<IEnumerable<TEntity>> GetAll()
-        {
-            return await Context.Set<TEntity>().ToListAsync(); //Use generic Set() method because generic repository has no DbSets to reference
+            return Context.Set<TEntity>().ToList(); //Use generic Set() method because generic repository has no DbSets to reference
         }
     }
 }

@@ -1,5 +1,49 @@
-﻿@{
+﻿@model BitsAndBobs.WebApp.Models.CustomersViewModel
+
+@{
     ViewData["Title"] = "Customers Home";
 }
 
 <h3>Customers Index</h3>
+
+<p>
+    <a asp-action="Create">Create New Customer</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Customers[0].CustomerID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customers[0].CustFirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customers[0].CustLastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customers[0].CustUsername)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var customer in Model.Customers)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => customer.CustomerID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => customer.CustFirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => customer.CustLastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => customer.CustUsername)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

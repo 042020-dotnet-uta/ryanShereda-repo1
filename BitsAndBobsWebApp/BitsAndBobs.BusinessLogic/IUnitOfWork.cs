@@ -7,9 +7,10 @@ using BitsAndBobs.BuildModels;
 //https://www.youtube.com/watch?v=rtXpYpZdOzM
 namespace BitsAndBobs.BusinessLogic.RepositoryInterfaces
 {
-    interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork : IDisposable
     {
         IRepository<Location> Locations { get; }
+        ICustomerRepository Customers { get; }
 
         int Complete();
     }
