@@ -6,21 +6,27 @@ using BitsAndBobs.BuildModels;
 using Microsoft.AspNetCore.Mvc;
 using BitsAndBobs.Data;
 using BitsAndBobs.WebApp.Models;
+using BitsAndBobs.BusinessLogic.RepositoryInterfaces;
 
 namespace BitsAndBobs.WebApp.Controllers
 {
     public class CustomersController : Controller
     {
+        private readonly IUnitOfWork _unitOfWork;
+
+        public CustomersController(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+
         public IActionResult Index()
         {
-            using (var unitOfWork = new UnitOfWork(new BitsAndBobsContext()))
-            {
-                var customersVM = new CustomersViewModel {
-                    Customers = unitOfWork.Customers.GetAll().ToList() 
-                };
+            var customersVM = new CustomersViewModel {
+                Customers = _unitOfWork.Customers.GetAll().ToList() 
+            };
 
-                return View(customersVM);
-            }
+            return View(customersVM);
+            
         }
 
         //GET: Customers/Create
@@ -32,11 +38,19 @@ namespace BitsAndBobs.WebApp.Controllers
         //POST: Customers/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CustomerID, CustFirstName, CustLastName, CustUsername")] Customer customer)
+        public IActionResult Create([Bind("CustomerID, CustFirstName, CustLastName, CustUsername")] Customer customer)
         {
             if (ModelState.IsValid)
             {
-                //add customer to database
+                if (_unitOfWork.Customers.IsAvailable(customer.CustUsername))
+                {
+                    _unitOfWork.Customers.Add(customer);
+                    _unitOfWork.Complete();
+                    return RedirectToAction(nameof(Index));
+                }
+                //else
+                //username is not unique, so reject input
+                //return to view with cleared username field and "unavailable" message?
             }
             return View(customer);
         }
