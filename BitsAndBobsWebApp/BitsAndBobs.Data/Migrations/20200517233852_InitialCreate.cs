@@ -13,9 +13,9 @@ namespace BitsAndBobs.Data.Migrations
                 {
                     CustomerID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CustFirstName = table.Column<string>(nullable: true),
-                    CustLastName = table.Column<string>(nullable: true),
-                    CustUsername = table.Column<string>(nullable: true)
+                    CustFirstName = table.Column<string>(nullable: false),
+                    CustLastName = table.Column<string>(nullable: false),
+                    CustUsername = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -28,7 +28,7 @@ namespace BitsAndBobs.Data.Migrations
                 {
                     LocationID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    LocationCity = table.Column<string>(nullable: true)
+                    LocationCity = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -41,8 +41,8 @@ namespace BitsAndBobs.Data.Migrations
                 {
                     ProductID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductName = table.Column<string>(nullable: true),
-                    ProductPrice = table.Column<double>(nullable: false)
+                    ProductName = table.Column<string>(nullable: false),
+                    ProductPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -55,8 +55,8 @@ namespace BitsAndBobs.Data.Migrations
                 {
                     OrderID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderCustomerCustomerID = table.Column<int>(nullable: true),
-                    OrderLocationLocationID = table.Column<int>(nullable: true),
+                    OrderCustomerCustomerID = table.Column<int>(nullable: false),
+                    OrderLocationLocationID = table.Column<int>(nullable: false),
                     OrderDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -67,13 +67,13 @@ namespace BitsAndBobs.Data.Migrations
                         column: x => x.OrderCustomerCustomerID,
                         principalTable: "CustomersDB",
                         principalColumn: "CustomerID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_OrdersDB_LocationsDB_OrderLocationLocationID",
                         column: x => x.OrderLocationLocationID,
                         principalTable: "LocationsDB",
                         principalColumn: "LocationID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -82,8 +82,8 @@ namespace BitsAndBobs.Data.Migrations
                 {
                     InventoryID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    InventoryLocationLocationID = table.Column<int>(nullable: true),
-                    InventoryProductProductID = table.Column<int>(nullable: true),
+                    InventoryLocationLocationID = table.Column<int>(nullable: false),
+                    InventoryProductProductID = table.Column<int>(nullable: false),
                     QuantityAvailable = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -94,13 +94,13 @@ namespace BitsAndBobs.Data.Migrations
                         column: x => x.InventoryLocationLocationID,
                         principalTable: "LocationsDB",
                         principalColumn: "LocationID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_InventoryDB_ProductsDB_InventoryProductProductID",
                         column: x => x.InventoryProductProductID,
                         principalTable: "ProductsDB",
                         principalColumn: "ProductID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -109,9 +109,9 @@ namespace BitsAndBobs.Data.Migrations
                 {
                     OrderLineItemID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    LineItemProductProductID = table.Column<int>(nullable: true),
+                    LineItemProductProductID = table.Column<int>(nullable: false),
                     Quantity = table.Column<int>(nullable: false),
-                    LinePrice = table.Column<double>(nullable: false),
+                    LinePrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     OrderID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -122,7 +122,7 @@ namespace BitsAndBobs.Data.Migrations
                         column: x => x.LineItemProductProductID,
                         principalTable: "ProductsDB",
                         principalColumn: "ProductID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_OrderLineItemsDB_OrdersDB_OrderID",
                         column: x => x.OrderID,

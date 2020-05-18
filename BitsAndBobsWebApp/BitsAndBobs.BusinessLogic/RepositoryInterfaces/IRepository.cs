@@ -9,10 +9,8 @@ namespace BitsAndBobs.BusinessLogic.RepositoryInterfaces
 {
     public interface IRepository<TEntity> where TEntity : class
     {
-        Task<TEntity> Get(int id);
+        TEntity Get(int id);
 
-        Task<IEnumerable<TEntity>> GetAll();
-
-        void Add(TEntity entity);
+        IEnumerable<TEntity> GetAll();
     }
 }

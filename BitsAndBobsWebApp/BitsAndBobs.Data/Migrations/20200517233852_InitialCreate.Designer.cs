@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BitsAndBobs.Data.Migrations
 {
     [DbContext(typeof(BitsAndBobsContext))]
-    [Migration("20200517034742_InitialCreate")]
+    [Migration("20200517233852_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,12 +29,15 @@ namespace BitsAndBobs.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CustFirstName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CustLastName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CustUsername")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CustomerID");
@@ -49,10 +52,10 @@ namespace BitsAndBobs.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("InventoryLocationLocationID")
+                    b.Property<int>("InventoryLocationLocationID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("InventoryProductProductID")
+                    b.Property<int>("InventoryProductProductID")
                         .HasColumnType("int");
 
                     b.Property<int>("QuantityAvailable")
@@ -75,6 +78,7 @@ namespace BitsAndBobs.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("LocationCity")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("LocationID");
@@ -89,13 +93,13 @@ namespace BitsAndBobs.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("OrderCustomerCustomerID")
+                    b.Property<int>("OrderCustomerCustomerID")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("OrderLocationLocationID")
+                    b.Property<int>("OrderLocationLocationID")
                         .HasColumnType("int");
 
                     b.HasKey("OrderID");
@@ -114,11 +118,11 @@ namespace BitsAndBobs.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("LineItemProductProductID")
+                    b.Property<int>("LineItemProductProductID")
                         .HasColumnType("int");
 
-                    b.Property<double>("LinePrice")
-                        .HasColumnType("float");
+                    b.Property<decimal>("LinePrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int?>("OrderID")
                         .HasColumnType("int");
@@ -143,10 +147,11 @@ namespace BitsAndBobs.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ProductName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("ProductPrice")
-                        .HasColumnType("float");
+                    b.Property<decimal>("ProductPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("ProductID");
 
@@ -157,29 +162,39 @@ namespace BitsAndBobs.Data.Migrations
                 {
                     b.HasOne("BitsAndBobs.BuildModels.Location", "InventoryLocation")
                         .WithMany()
-                        .HasForeignKey("InventoryLocationLocationID");
+                        .HasForeignKey("InventoryLocationLocationID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("BitsAndBobs.BuildModels.Product", "InventoryProduct")
                         .WithMany()
-                        .HasForeignKey("InventoryProductProductID");
+                        .HasForeignKey("InventoryProductProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("BitsAndBobs.BuildModels.Order", b =>
                 {
                     b.HasOne("BitsAndBobs.BuildModels.Customer", "OrderCustomer")
                         .WithMany()
-                        .HasForeignKey("OrderCustomerCustomerID");
+                        .HasForeignKey("OrderCustomerCustomerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("BitsAndBobs.BuildModels.Location", "OrderLocation")
                         .WithMany()
-                        .HasForeignKey("OrderLocationLocationID");
+                        .HasForeignKey("OrderLocationLocationID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("BitsAndBobs.BuildModels.OrderLineItem", b =>
                 {
                     b.HasOne("BitsAndBobs.BuildModels.Product", "LineItemProduct")
                         .WithMany()
-                        .HasForeignKey("LineItemProductProductID");
+                        .HasForeignKey("LineItemProductProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("BitsAndBobs.BuildModels.Order", null)
                         .WithMany("OrderLineItems")

@@ -25,6 +25,7 @@ namespace BitsAndBobs.BuildModels
 		/// Property for the Product ID of the line item.
 		/// </summary>
 		[Display(Name = "Line Item Product")]
+		[Required]
 		public Product LineItemProduct { get; set; }
 
 		/// <summary>

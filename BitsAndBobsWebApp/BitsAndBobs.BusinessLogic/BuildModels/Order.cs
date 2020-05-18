@@ -18,12 +18,14 @@ namespace BitsAndBobs.BuildModels
 		/// Property for the Customer ID of the order.
 		/// </summary>
 		[Display(Name = "Order Customer")]
+		[Required]
 		public Customer OrderCustomer { get; set; }
 
 		/// <summary>
 		/// Property for the Location of the order.
 		/// </summary>
 		[Display(Name = "Order Location")]
+		[Required]
 		public Location OrderLocation { get; set; }
 
 		/// <summary>

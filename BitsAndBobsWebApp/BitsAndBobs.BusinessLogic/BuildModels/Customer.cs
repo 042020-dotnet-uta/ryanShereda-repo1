@@ -18,18 +18,24 @@ namespace BitsAndBobs.BuildModels
 		/// Property for the Customer's first name
 		/// </summary>
 		[Display(Name = "Customer First Name")]
+		[RegularExpression(@"[a-zA-Z""'\s-]*$")]
+		[Required]
 		public String CustFirstName { get; set; }
 
 		/// <summary>
 		/// Property for the Customer's last name
 		/// </summary>
 		[Display(Name = "Customer Last Name")]
+		[RegularExpression(@"[a-zA-Z""'\s-]*$")]
+		[Required]
 		public String CustLastName { get; set; }
 
 		/// <summary>
 		/// Property for the Customer's username
 		/// </summary>
 		[Display(Name = "Customer Username")]
+		[RegularExpression(@"[a-zA-Z0-9""'\s-]*$")]
+		[Required]
 		public String CustUsername { get; set; }
 
 		#region Constructors

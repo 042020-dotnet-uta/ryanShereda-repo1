@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using BitsAndBobs.Data;
+using BitsAndBobs.BusinessLogic.RepositoryInterfaces;
 
 namespace BitsAndBobs.WebApp
 {
@@ -29,6 +30,8 @@ namespace BitsAndBobs.WebApp
             services.AddControllersWithViews();
 
             services.AddDbContext<BitsAndBobsContext>(options => options.UseSqlServer(Configuration.GetConnectionString("BitsAndBobsContext")));
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -18,6 +18,8 @@ namespace BitsAndBobs.BuildModels
 		/// Property for the Location's street address
 		/// </summary>
 		[Display(Name = "Location City")]
+		[RegularExpression(@"[a-zA-Z""'\s-]*$")]
+		[Required]
 		public String LocationCity { get; set; }
 	}
 }
