@@ -1,14 +1,23 @@
 ﻿@model BitsAndBobs.WebApp.Models.CustomersViewModel
 
 @{
-    ViewData["Title"] = "Customers Home";
+    ViewData["Title"] = "Customer Index";
 }
 
-<h3>Customers Index</h3>
+<h2>Customer Index</h2>
 
 <p>
     <a asp-action="Create">Create New Customer</a>
 </p>
+
+<form asp-controller="Customers" asp-action="Index" method="get">
+    <p>
+        First Name: <input type="text" asp-for="SearchStringFirst">
+        Last Name: <input type="text" asp-for="SearchStringLast">
+        Username: <input type="text" asp-for="SearchStringUsername">
+        <input type="submit" value="Filter">
+    </p>
+</form>
 
 <table class="table">
     <thead>

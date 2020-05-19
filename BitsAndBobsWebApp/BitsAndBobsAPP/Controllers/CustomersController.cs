@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BitsAndBobs.BuildModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using BitsAndBobs.Data;
 using BitsAndBobs.WebApp.Models;
 using BitsAndBobs.BusinessLogic.RepositoryInterfaces;
@@ -19,10 +20,27 @@ namespace BitsAndBobs.WebApp.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string searchStringFirst, string searchStringLast, string searchStringUsername)
         {
+            var customers = _unitOfWork.Customers.GetAll();
+
+            if (!String.IsNullOrEmpty(searchStringFirst))
+            {
+                customers = customers.Where(s => s.CustFirstName.ToLower().Contains(searchStringFirst.ToLower()));
+            }
+
+            if (!String.IsNullOrEmpty(searchStringLast))
+            {
+                customers = customers.Where(s => s.CustLastName.ToLower().Contains(searchStringLast.ToLower()));
+            }
+
+            if (!String.IsNullOrEmpty(searchStringUsername))
+            {
+                customers = customers.Where(s => s.CustUsername.ToLower().Contains(searchStringUsername.ToLower()));
+            }
+
             var customersVM = new CustomersViewModel {
-                Customers = _unitOfWork.Customers.GetAll().ToList() 
+                Customers = customers.ToList()
             };
 
             return View(customersVM);
