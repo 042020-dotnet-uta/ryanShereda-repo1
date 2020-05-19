@@ -11,7 +11,7 @@ namespace BitsAndBobs.BusinessLogic.RepositoryInterfaces
     {
         IRepository<Location> Locations { get; }
         ICustomerRepository Customers { get; }
-
+        IInventoryRepository Inventories { get; }
         int Complete();
     }
 }
