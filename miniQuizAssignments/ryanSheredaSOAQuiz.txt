@@ -1,0 +1,29 @@
+1. What is the relationship between SOA and APIs?
+- An API is the service, and the SOA the architecture that allows it to operate ***
+- An SOA is the service, and the API the architecture that allows it to operate
+- An ASP is the service, and SOA and APIs allow it to operate
+- SOA and APIs are services, and browsers allow them to operate
+
+2. In SOA, what describes how they pass and parse messages using description metadata?
+- Actions
+- Views
+- Protocols ***
+- Markup
+
+3. How can SOA be implemented?
+- Command Line
+- Docker
+- Hopes and Dreams
+- Web services ***
+
+4. Which of the following is NOT a major cause of difficulty testing SOA framework?
+- Small set of obscured testing combinations due to external autonomous services ***
+- Platform is continuously changing due to availability of new features and services
+- Heterogeneity and complexity of solution
+- Inclusion of services from different and competing vendors
+
+5. Which of the following is not a best practice in SOA?
+- Policies and Security
+- Operations and Implementation
+- Freedom and Open Trade ***
+- Vision and Leadership
