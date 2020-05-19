@@ -18,11 +18,14 @@ namespace BitsAndBobs.Data
             _context = context;
             Customers = new CustomerRepository(_context);
             Locations = new Repository<Location>(_context);
+            Inventories = new InventoryRepository(_context);
         }
 
         public IRepository<Location> Locations { get; private set; }
 
         public ICustomerRepository Customers { get; private set; }
+
+        public IInventoryRepository Inventories { get; private set; }
 
         public int Complete()
         {

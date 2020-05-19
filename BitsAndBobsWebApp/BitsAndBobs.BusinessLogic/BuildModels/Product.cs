@@ -26,6 +26,7 @@ namespace BitsAndBobs.BuildModels
 		/// Property for the price of the product.
 		/// </summary>
 		[Display(Name = "Product Price")]
+		[DataType(DataType.Currency)]
 		[Column(TypeName = "decimal(18,2)")]
 		public double ProductPrice { get; set; }
 	}

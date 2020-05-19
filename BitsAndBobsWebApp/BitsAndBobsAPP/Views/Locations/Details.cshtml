@@ -1,0 +1,48 @@
+﻿@model BitsAndBobs.WebApp.Models.LocationDetailsViewModel
+
+@{
+    ViewData["Title"] = "Location Details";
+}
+
+<div>
+    <h4>Inventory</h4>
+    <hr />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FilteredInventory[0].InventoryProduct.ProductName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FilteredInventory[0].InventoryProduct.ProductPrice)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FilteredInventory[0].QuantityAvailable)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var inv in Model.FilteredInventory)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => inv.InventoryProduct.ProductName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => inv.InventoryProduct.ProductPrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => inv.QuantityAvailable)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <dl class="row">
+        
+    </dl>
+</div>
+<div>
+    <a asp-action="Order" asp-route-id="@Model.Loc.LocationID">Place Order</a> |
+    <a asp-action="Index">Back to Index</a>
+</div>

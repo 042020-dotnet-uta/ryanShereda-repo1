@@ -1,5 +1,46 @@
-﻿@{
-    ViewData["Title"] = "Location Home";
+﻿@model BitsAndBobs.WebApp.Models.LocationViewModel
+
+@{
+    ViewData["Title"] = "Location Index";
 }
 
-<h3>Locations Index</h3>
+<h2>Location Index</h2>
+
+<form asp-controller="Locations" asp-action="Index" method="get">
+    <p>
+        City: <input type="text" asp-for="SearchString">
+        <input type="submit" value="Filter">
+    </p>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Locations[0].LocationID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Locations[0].LocationCity)
+            </th>
+            <th>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var location in Model.Locations)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => location.LocationID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => location.LocationCity)
+                </td>
+                <td>
+                    <a asp-action="Order" asp-route-id="@location.LocationID">Place Order</a> |
+                    <a asp-action="Details" asp-route-id="@location.LocationID">Location Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
