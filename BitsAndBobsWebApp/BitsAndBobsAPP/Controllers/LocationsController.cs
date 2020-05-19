@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using BitsAndBobs.WebApp.Models;
 using BitsAndBobs.BusinessLogic.RepositoryInterfaces;
 
@@ -62,6 +64,7 @@ namespace BitsAndBobs.WebApp.Controllers
             return View(locationDetailsVM);
         }
 
+        //GET: Locations/Order
         public IActionResult Order(int? id)
         {
             if (id == null)
@@ -69,7 +72,28 @@ namespace BitsAndBobs.WebApp.Controllers
                 return NotFound();
             }
 
+            var inventories = _unitOfWork.Inventories.GetLocationInventory(id.Value);
 
+            var locationOrderViewModel = new LocationOrderViewModel
+            {
+                Loc = _unitOfWork.Locations.Get(id.Value),
+                Customers = new SelectList(_unitOfWork.Customers.GetAll()),
+                FilteredInventory = inventories.ToList(),
+                Quantity1 = 0,
+                Quantity2 = 0,
+                Quantity3 = 0,
+                Quantity4 = 0,
+                Quantity5 = 0
+            };
+
+            return View(locationOrderViewModel);
+        }
+
+        //POST: Locations/Order
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Order()
+        {
             return View();
         }
     }
