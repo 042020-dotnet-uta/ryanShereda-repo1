@@ -79,11 +79,11 @@ namespace BitsAndBobs.WebApp.Controllers
                 Loc = _unitOfWork.Locations.Get(id.Value),
                 Customers = new SelectList(_unitOfWork.Customers.GetAll()),
                 FilteredInventory = inventories.ToList(),
-                Quantity1 = 0,
-                Quantity2 = 0,
-                Quantity3 = 0,
-                Quantity4 = 0,
-                Quantity5 = 0
+                Quantity1 = 1,
+                Quantity2 = 2,
+                Quantity3 = 3,
+                Quantity4 = 4,
+                Quantity5 = 5
             };
 
             return View(locationOrderViewModel);
