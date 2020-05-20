@@ -1,5 +1,51 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model BitsAndBobs.WebApp.Models.SearchDetailsViewModel
+
 @{
+    ViewData["Title"] = "Order Details";
 }
+
+<h4>Order Details</h4>
+
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.LineItems[0].OrderLineItemID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LineItems[0].LineItemProduct.ProductName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LineItems[0].Quantity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LineItems[0].LinePrice)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var line in Model.LineItems)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => line.OrderLineItemID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => line.LineItemProduct.ProductName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => line.Quantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => line.LinePrice)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <a asp-action="Index">Back to Index</a>
+</div>
