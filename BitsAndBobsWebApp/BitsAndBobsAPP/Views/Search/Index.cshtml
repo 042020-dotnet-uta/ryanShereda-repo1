@@ -1,5 +1,59 @@
-﻿@{
+﻿@model BitsAndBobs.WebApp.Models.SearchViewModel
+
+@{
     ViewData["Title"] = "Search Home";
 }
 
-<h3>Search Index</h3>
+<h2>Search Index</h2><br />
+
+<form asp-controller="Search" asp-action="Index" method="get">
+    <h6>Filter by: <br /></h6>
+    <p>
+        Username: <input type="text" asp-for="SearchStringCustUsername">
+        Location: <input type="text" asp-for="SearchStringLocation">
+        <input type="submit" value="Filter">
+    </p>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Orders[0].OrderID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Orders[0].OrderCustomer.CustUsername)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Orders[0].OrderLocation.LocationCity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Orders[0].OrderDate)
+            </th>
+            <th>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model.Orders)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => order.OrderID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => order.OrderCustomer.CustUsername)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => order.OrderLocation.LocationCity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => order.OrderDate)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@order.OrderID">Order Details</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

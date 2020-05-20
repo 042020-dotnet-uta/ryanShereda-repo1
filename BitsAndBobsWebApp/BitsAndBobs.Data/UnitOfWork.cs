@@ -19,6 +19,7 @@ namespace BitsAndBobs.Data
             Customers = new CustomerRepository(_context);
             Locations = new Repository<Location>(_context);
             Inventories = new InventoryRepository(_context);
+            Orders = new OrderRepository(_context);
         }
 
         public IRepository<Location> Locations { get; private set; }
@@ -26,6 +27,8 @@ namespace BitsAndBobs.Data
         public ICustomerRepository Customers { get; private set; }
 
         public IInventoryRepository Inventories { get; private set; }
+
+        public IOrderRepository Orders { get; private set; }
 
         public int Complete()
         {

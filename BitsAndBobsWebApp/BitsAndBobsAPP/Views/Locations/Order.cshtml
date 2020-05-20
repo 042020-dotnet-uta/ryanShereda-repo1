@@ -1,5 +1,128 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model BitsAndBobs.WebApp.Models.LocationOrderViewModel
+
 @{
+    ViewData["Title"] = "Place Order";
+}
+
+<h2>Place New Order</h2>
+<hr />
+
+<form asp-action="Order">
+    <p>
+        Customer placing order: 
+        <select asp-for="OrderCustomerUsername" asp-items="Model.Customers">
+            <option value="">No selection</option>
+        </select>
+    </p>
+
+    <input type="hidden" asp-for="LocID" value="@Model.LocID">
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FilteredInventory[0].InventoryProduct.ProductName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FilteredInventory[0].InventoryProduct.ProductPrice)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FilteredInventory[0].QuantityAvailable)
+                </th>
+                <th>
+                    Quantity to Order:
+                </th>                
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.FilteredInventory[0].InventoryProduct.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.FilteredInventory[0].InventoryProduct.ProductPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.FilteredInventory[0].QuantityAvailable)
+                </td>
+                <td>
+                    <input asp-for="Quantity1" class="form-control" />
+                    <span asp-validation-for="Quantity1" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.FilteredInventory[1].InventoryProduct.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.FilteredInventory[1].InventoryProduct.ProductPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.FilteredInventory[1].QuantityAvailable)
+                </td>
+                <td>
+                    <input asp-for="Quantity2" class="form-control" />
+                    <span asp-validation-for="Quantity2" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.FilteredInventory[2].InventoryProduct.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.FilteredInventory[2].InventoryProduct.ProductPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.FilteredInventory[2].QuantityAvailable)
+                </td>
+                <td>
+                    <input asp-for="Quantity3" class="form-control" />
+                    <span asp-validation-for="Quantity3" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.FilteredInventory[3].InventoryProduct.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.FilteredInventory[3].InventoryProduct.ProductPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.FilteredInventory[3].QuantityAvailable)
+                </td>
+                <td>
+                    <input asp-for="Quantity4" class="form-control" />
+                    <span asp-validation-for="Quantity4" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.FilteredInventory[4].InventoryProduct.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.FilteredInventory[4].InventoryProduct.ProductPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.FilteredInventory[4].QuantityAvailable)
+                </td>
+                <td>
+                    <input asp-for="Quantity5" class="form-control" />
+                    <span asp-validation-for="Quantity5" class="text-danger"></span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    
+    <div class="form-group">
+        <input type="submit" value="Place Order" class="btn btn-primary" />
+    </div>
+        
+</form>
+<div>
+    <a asp-action="Index">Back to Index</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
