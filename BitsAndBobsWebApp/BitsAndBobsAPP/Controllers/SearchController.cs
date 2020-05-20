@@ -14,6 +14,10 @@ namespace BitsAndBobs.WebApp.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
 
+        /// <summary>
+        /// Injects a UnitOfWork into the controller, for easy manipulation of repositories
+        /// </summary>
+        /// <param name="unitOfWork">injects unitOfWork into controller</param>
         public SearchController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;

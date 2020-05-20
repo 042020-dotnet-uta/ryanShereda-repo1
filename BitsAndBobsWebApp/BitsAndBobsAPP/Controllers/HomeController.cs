@@ -13,6 +13,10 @@ namespace BitsAndBobs.WebApp.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
+        /// <summary>
+        /// Dependency injection
+        /// </summary>
+        /// <param name="logger"></param>
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
