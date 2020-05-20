@@ -19,9 +19,19 @@ namespace BitsAndBobs.WebApp.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        public IActionResult Index(string searchStringUsername, string searchStringLocation)
+        public IActionResult Index(string searchStringCustUsername, string searchStringLocation)
         {
             var orders = _unitOfWork.Orders.GetFull();
+
+            if (!String.IsNullOrEmpty(searchStringCustUsername))
+            {
+                orders = orders.Where(s => s.OrderCustomer.CustUsername.ToLower().Contains(searchStringCustUsername.ToLower()));
+            }
+
+            if (!String.IsNullOrEmpty(searchStringLocation))
+            {
+                orders = orders.Where(s => s.OrderLocation.LocationCity.ToLower().Contains(searchStringLocation.ToLower()));
+            }
 
             var searchVM = new SearchViewModel 
             { 
@@ -29,6 +39,32 @@ namespace BitsAndBobs.WebApp.Controllers
             };
 
             return View(searchVM);
+        }
+
+        public IActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var orderLines = _unitOfWork.Orders.GetLineItems(id.Value).ToList();
+
+            if (orderLines == null)
+            {
+                return NotFound();
+            }
+
+            Console.WriteLine(orderLines.Count());
+
+            //var lineItems = order.OrderLineItems;
+
+            var detailsViewModel = new SearchDetailsViewModel
+            {
+                LineItems = orderLines
+            };
+
+            return View(detailsViewModel);
         }
     }
 }

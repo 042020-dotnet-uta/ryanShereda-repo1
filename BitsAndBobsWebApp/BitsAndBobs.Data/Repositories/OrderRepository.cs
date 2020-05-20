@@ -29,6 +29,17 @@ namespace BitsAndBobs.Data.Repositories
             return orders.ToList();
         }
 
+        public IEnumerable<OrderLineItem> GetLineItems(int id)
+        {
+            var temp = db.OrdersDB
+                .Include(line => line.OrderLineItems)
+                .ThenInclude(prod => prod.LineItemProduct)
+                .Where(line => line.OrderID == id)
+                .Select(line => line.OrderLineItems).FirstOrDefault();
+
+            return temp;
+        }
+
         public BitsAndBobsContext db
         {
             get { return Context as BitsAndBobsContext; }

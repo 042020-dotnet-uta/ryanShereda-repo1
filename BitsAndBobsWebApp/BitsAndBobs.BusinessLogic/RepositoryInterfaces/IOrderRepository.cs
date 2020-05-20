@@ -10,5 +10,7 @@ namespace BitsAndBobs.BusinessLogic.RepositoryInterfaces
         void Add(Order order);
 
         IEnumerable<Order> GetFull();
+
+        IEnumerable<OrderLineItem> GetLineItems(int id);
     }
 }

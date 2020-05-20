@@ -38,6 +38,7 @@ namespace BitsAndBobs.BuildModels
 		/// Property for the total price of the line item.
 		/// </summary>
 		[Display(Name = "Line Item Total Price")]
+		[DataType(DataType.Currency)]
 		[Column(TypeName = "decimal(18,2)")]
 		public double LinePrice { get; set; }
 	}
