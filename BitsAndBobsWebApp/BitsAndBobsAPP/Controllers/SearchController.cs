@@ -23,6 +23,13 @@ namespace BitsAndBobs.WebApp.Controllers
             _unitOfWork = unitOfWork;
         }
 
+        /// <summary>
+        /// GET Search/Index
+        /// lists all orders, and filters according to params
+        /// </summary>
+        /// <param name="searchStringCustUsername">Filter by customer username</param>
+        /// <param name="searchStringLocation">Filter by location</param>
+        /// <returns></returns>
         public IActionResult Index(string searchStringCustUsername, string searchStringLocation)
         {
             var orders = _unitOfWork.Orders.GetFull();
@@ -45,6 +52,12 @@ namespace BitsAndBobs.WebApp.Controllers
             return View(searchVM);
         }
 
+        /// <summary>
+        /// GET Search/Details
+        /// See detailed information about placed orders
+        /// </summary>
+        /// <param name="id">Order ID</param>
+        /// <returns></returns>
         public IActionResult Details(int? id)
         {
             if (id == null)
