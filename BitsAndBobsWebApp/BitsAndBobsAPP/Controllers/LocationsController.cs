@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using BitsAndBobs.WebApp.Models;
 using BitsAndBobs.BusinessLogic.RepositoryInterfaces;
 using BitsAndBobs.BuildModels;
+using Microsoft.Extensions.Logging;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,13 +17,24 @@ namespace BitsAndBobs.WebApp.Controllers
     public class LocationsController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ILogger<LocationsController> _logger;
 
-        public LocationsController(IUnitOfWork unitOfWork)
+        /// <summary>
+        /// Dependency injection
+        /// </summary>
+        /// <param name="unitOfWork"></param>
+        public LocationsController(IUnitOfWork unitOfWork, ILogger<LocationsController> logger)
         {
             _unitOfWork = unitOfWork;
+            _logger = logger;
         }
 
-        // GET: /<controller>/
+        /// <summary>
+        /// GET: Locations/Index
+        /// Index action for Locations controller
+        /// </summary>
+        /// <param name="searchString">the string to filter locations by</param>
+        /// <returns>filtered view</returns>
         public IActionResult Index(string searchString)
         {
             var locations = _unitOfWork.Locations.GetAll();
@@ -111,47 +123,93 @@ namespace BitsAndBobs.WebApp.Controllers
 
                 if ((lovm.Quantity1 > 0) || (lovm.Quantity2 > 0) || (lovm.Quantity3 > 0) || (lovm.Quantity4 > 0) || (lovm.Quantity5 > 0))
                 {
-                    var line1 = new OrderLineItem() 
-                        { 
-                            LineItemProduct = filteredInventory[0].InventoryProduct,
-                            Quantity = lovm.Quantity1,
-                            LinePrice = (filteredInventory[0].InventoryProduct.ProductPrice * lovm.Quantity1) 
-                        };
-                    newOrder.OrderLineItems.Add(line1);
-                    _unitOfWork.Inventories.ReduceStock(filteredInventory[0].InventoryID, lovm.Quantity1);
+                    try
+                    {
+                        if (lovm.Quantity1 > 0)
+                        {
+                            if (lovm.Quantity1 > filteredInventory[0].QuantityAvailable)
+                            {
+                                throw new ArgumentOutOfRangeException();
+                            }
+                            var line1 = new OrderLineItem()
+                            {
+                                LineItemProduct = filteredInventory[0].InventoryProduct,
+                                Quantity = lovm.Quantity1,
+                                LinePrice = (filteredInventory[0].InventoryProduct.ProductPrice * lovm.Quantity1)
+                            };
+                            newOrder.OrderLineItems.Add(line1);
+                            _unitOfWork.Inventories.ReduceStock(filteredInventory[0].InventoryID, lovm.Quantity1);
+                        }
 
-                    newOrder.OrderLineItems.Add(new OrderLineItem() 
-                    { 
-                        LineItemProduct = filteredInventory[1].InventoryProduct,
-                        Quantity = lovm.Quantity2,
-                        LinePrice = (filteredInventory[1].InventoryProduct.ProductPrice * lovm.Quantity2) 
-                    });
-                    _unitOfWork.Inventories.ReduceStock(filteredInventory[1].InventoryID, lovm.Quantity2);
-                    newOrder.OrderLineItems.Add(new OrderLineItem() 
-                    { 
-                        LineItemProduct = filteredInventory[2].InventoryProduct,
-                        Quantity = lovm.Quantity3,
-                        LinePrice = (filteredInventory[2].InventoryProduct.ProductPrice * lovm.Quantity3) 
-                    });
-                    _unitOfWork.Inventories.ReduceStock(filteredInventory[2].InventoryID, lovm.Quantity3);
-                    newOrder.OrderLineItems.Add(new OrderLineItem() 
-                    { 
-                        LineItemProduct = filteredInventory[3].InventoryProduct,
-                        Quantity = lovm.Quantity4,
-                        LinePrice = (filteredInventory[3].InventoryProduct.ProductPrice * lovm.Quantity4) 
-                    });
-                    _unitOfWork.Inventories.ReduceStock(filteredInventory[3].InventoryID, lovm.Quantity4);
-                    newOrder.OrderLineItems.Add(new OrderLineItem() 
-                    { 
-                        LineItemProduct = filteredInventory[4].InventoryProduct,
-                        Quantity = lovm.Quantity5,
-                        LinePrice = (filteredInventory[4].InventoryProduct.ProductPrice * lovm.Quantity5) 
-                    });
-                    _unitOfWork.Inventories.ReduceStock(filteredInventory[4].InventoryID, lovm.Quantity5);
+                        if (lovm.Quantity2 > 0)
+                        {
+                            if (lovm.Quantity2 > filteredInventory[1].QuantityAvailable)
+                            {
+                                throw new ArgumentOutOfRangeException();
+                            }
+                            newOrder.OrderLineItems.Add(new OrderLineItem()
+                            {
+                                LineItemProduct = filteredInventory[1].InventoryProduct,
+                                Quantity = lovm.Quantity2,
+                                LinePrice = (filteredInventory[1].InventoryProduct.ProductPrice * lovm.Quantity2)
+                            });
+                            _unitOfWork.Inventories.ReduceStock(filteredInventory[1].InventoryID, lovm.Quantity2);
+                        }
 
-                    _unitOfWork.Orders.Add(newOrder);
-                    _unitOfWork.Complete();
-                    return RedirectToAction(nameof(Index));
+                        if (lovm.Quantity3 > 0)
+                        {
+                            if (lovm.Quantity3 > filteredInventory[2].QuantityAvailable)
+                            {
+                                throw new ArgumentOutOfRangeException();
+                            }
+                            newOrder.OrderLineItems.Add(new OrderLineItem()
+                            {
+                                LineItemProduct = filteredInventory[2].InventoryProduct,
+                                Quantity = lovm.Quantity3,
+                                LinePrice = (filteredInventory[2].InventoryProduct.ProductPrice * lovm.Quantity3)
+                            });
+                            _unitOfWork.Inventories.ReduceStock(filteredInventory[2].InventoryID, lovm.Quantity3);
+                        }
+
+                        if (lovm.Quantity4 > 0)
+                        {
+                            if (lovm.Quantity4 > filteredInventory[3].QuantityAvailable)
+                            {
+                                throw new ArgumentOutOfRangeException();
+                            }
+                            newOrder.OrderLineItems.Add(new OrderLineItem()
+                            {
+                                LineItemProduct = filteredInventory[3].InventoryProduct,
+                                Quantity = lovm.Quantity4,
+                                LinePrice = (filteredInventory[3].InventoryProduct.ProductPrice * lovm.Quantity4)
+                            });
+                            _unitOfWork.Inventories.ReduceStock(filteredInventory[3].InventoryID, lovm.Quantity4);
+                        }
+
+                        if (lovm.Quantity5 > 0)
+                        {
+                            if (lovm.Quantity5 > filteredInventory[4].QuantityAvailable)
+                            {
+                                throw new ArgumentOutOfRangeException();
+                            }
+                            newOrder.OrderLineItems.Add(new OrderLineItem()
+                            {
+                                LineItemProduct = filteredInventory[4].InventoryProduct,
+                                Quantity = lovm.Quantity5,
+                                LinePrice = (filteredInventory[4].InventoryProduct.ProductPrice * lovm.Quantity5)
+                            });
+                            _unitOfWork.Inventories.ReduceStock(filteredInventory[4].InventoryID, lovm.Quantity5);
+                        }
+
+                        _unitOfWork.Orders.Add(newOrder);
+                        _unitOfWork.Complete();
+                        return RedirectToAction(nameof(Index));
+                    }
+                    catch (Exception e)
+                    {
+                        //log out order too high
+                        _logger.LogInformation("Error: order value out of range.");
+                    }
                 }
             }
 

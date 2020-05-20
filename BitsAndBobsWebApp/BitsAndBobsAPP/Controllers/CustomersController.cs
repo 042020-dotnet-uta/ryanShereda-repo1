@@ -8,16 +8,23 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using BitsAndBobs.Data;
 using BitsAndBobs.WebApp.Models;
 using BitsAndBobs.BusinessLogic.RepositoryInterfaces;
+using Microsoft.Extensions.Logging;
 
 namespace BitsAndBobs.WebApp.Controllers
 {
     public class CustomersController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ILogger<CustomersController> _logger;
 
-        public CustomersController(IUnitOfWork unitOfWork)
+        /// <summary>
+        /// Injects a UnitOfWork into the controller, for easy manipulation of repositories
+        /// </summary>
+        /// <param name="unitOfWork">injects unitOfWork into controller</param>
+        public CustomersController(IUnitOfWork unitOfWork, ILogger<CustomersController> logger)
         {
             _unitOfWork = unitOfWork;
+            _logger = logger;
         }
 
         public IActionResult Index(string searchStringFirst, string searchStringLast, string searchStringUsername)
@@ -60,15 +67,19 @@ namespace BitsAndBobs.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (_unitOfWork.Customers.IsAvailable(customer.CustUsername))
+                try
                 {
-                    _unitOfWork.Customers.Add(customer);
-                    _unitOfWork.Complete();
-                    return RedirectToAction(nameof(Index));
+                    if (_unitOfWork.Customers.IsAvailable(customer.CustUsername))
+                    {
+                        _unitOfWork.Customers.Add(customer);
+                        _unitOfWork.Complete();
+                        return RedirectToAction(nameof(Index));
+                    }
                 }
-                //else
-                //username is not unique, so reject input
-                //return to view with cleared username field and "unavailable" message?
+                catch (Exception e)
+                {
+                    _logger.LogInformation("Error: Username already in use.");
+                }
             }
             return View(customer);
         }
