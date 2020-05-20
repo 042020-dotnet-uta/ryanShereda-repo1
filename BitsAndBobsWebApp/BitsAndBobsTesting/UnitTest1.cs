@@ -1173,5 +1173,201 @@ namespace BitsAndBobs.Testing
 
             }
         }
+
+        [Fact]
+        public void TestMultiLineItemOrder()
+        {
+            //Arrange
+            var options = new DbContextOptionsBuilder<BitsAndBobsContext>()
+                .UseInMemoryDatabase(databaseName: "Test19DB")
+                .Options;
+
+            //Act
+            using (var context = new BitsAndBobsContext(options))
+            {
+                var _unitOfWork = new UnitOfWork(context);
+
+                var testCustomer = new Customer
+                {
+                    CustFirstName = "Annie",
+                    CustLastName = "Admin",
+                    CustUsername = "Test"
+                };
+
+                var testProduct1 = new Product
+                {
+                    ProductName = "Apple",
+                    ProductPrice = 1
+                };
+
+                var testProduct2 = new Product
+                {
+                    ProductName = "Banana",
+                    ProductPrice = 1
+                };
+
+                var testLocation = new Location
+                {
+                    LocationCity = "Springfield"
+                };
+
+                var testInventory1 = new Inventory
+                {
+                    InventoryLocation = testLocation,
+                    InventoryProduct = testProduct1,
+                    QuantityAvailable = 5
+                };
+
+                var testInventory2 = new Inventory
+                {
+                    InventoryLocation = testLocation,
+                    InventoryProduct = testProduct2,
+                    QuantityAvailable = 5
+                };
+
+                var testOrderLineItem = new OrderLineItem
+                {
+                    LineItemProduct = testProduct1,
+                    LinePrice = 2,
+                    Quantity = 2
+                };
+
+                var testOrderLineItem2 = new OrderLineItem
+                {
+                    LineItemProduct = testProduct2,
+                    LinePrice = 2,
+                    Quantity = 2
+                };
+
+                var testOrder = new Order
+                {
+                    OrderCustomer = testCustomer,
+                    OrderDate = DateTime.Now,
+                    OrderLineItems = new List<OrderLineItem> { testOrderLineItem, testOrderLineItem2 },
+                    OrderLocation = testLocation
+                };
+
+                context.Add(testCustomer);
+                context.Add(testProduct1);
+                context.Add(testProduct2);
+                context.Add(testLocation);
+                context.Add(testInventory1);
+                context.Add(testInventory2);
+
+                context.SaveChanges();
+
+                _unitOfWork.Orders.Add(testOrder);
+                _unitOfWork.Complete();
+            }
+
+            //Assert
+            using (var context = new BitsAndBobsContext(options))
+            {
+                var _unitOfWork = new UnitOfWork(context);
+
+
+
+                Assert.Equal(1, _unitOfWork.Orders.Get(1).OrderID);
+
+            }
+        }
+
+        [Fact]
+        public void TestLineTotalAddition()
+        {
+            //Arrange
+            var options = new DbContextOptionsBuilder<BitsAndBobsContext>()
+                .UseInMemoryDatabase(databaseName: "Test20DB")
+                .Options;
+
+            //Act
+            using (var context = new BitsAndBobsContext(options))
+            {
+                var _unitOfWork = new UnitOfWork(context);
+
+                var testCustomer = new Customer
+                {
+                    CustFirstName = "Annie",
+                    CustLastName = "Admin",
+                    CustUsername = "Test"
+                };
+
+                var testProduct1 = new Product
+                {
+                    ProductName = "Apple",
+                    ProductPrice = 1
+                };
+
+                var testProduct2 = new Product
+                {
+                    ProductName = "Banana",
+                    ProductPrice = 1
+                };
+
+                var testLocation = new Location
+                {
+                    LocationCity = "Springfield"
+                };
+
+                var testInventory1 = new Inventory
+                {
+                    InventoryLocation = testLocation,
+                    InventoryProduct = testProduct1,
+                    QuantityAvailable = 5
+                };
+
+                var testInventory2 = new Inventory
+                {
+                    InventoryLocation = testLocation,
+                    InventoryProduct = testProduct2,
+                    QuantityAvailable = 5
+                };
+
+                var testOrderLineItem = new OrderLineItem
+                {
+                    LineItemProduct = testProduct1,
+                    LinePrice = 2,
+                    Quantity = 2
+                };
+
+                var testOrderLineItem2 = new OrderLineItem
+                {
+                    LineItemProduct = testProduct2,
+                    LinePrice = 2,
+                    Quantity = 2
+                };
+
+                var testOrder = new Order
+                {
+                    OrderCustomer = testCustomer,
+                    OrderDate = DateTime.Now,
+                    OrderLineItems = new List<OrderLineItem> { testOrderLineItem, testOrderLineItem2 },
+                    OrderLocation = testLocation
+                };
+
+                context.Add(testCustomer);
+                context.Add(testProduct1);
+                context.Add(testProduct2);
+                context.Add(testLocation);
+                context.Add(testInventory1);
+                context.Add(testInventory2);
+
+                context.SaveChanges();
+
+                _unitOfWork.Orders.Add(testOrder);
+                _unitOfWork.Complete();
+            }
+
+            //Assert
+            using (var context = new BitsAndBobsContext(options))
+            {
+                var _unitOfWork = new UnitOfWork(context);
+
+                var total = _unitOfWork.Orders.GetLineItems(1).ToList();
+
+                Assert.Equal(4, total[0].LinePrice + total[1].LinePrice);
+
+            }
+        }
     }
 }
