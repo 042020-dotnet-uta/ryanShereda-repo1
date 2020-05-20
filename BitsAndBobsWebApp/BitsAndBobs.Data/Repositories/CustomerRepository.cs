@@ -37,6 +37,13 @@ namespace BitsAndBobs.Data.Repositories
             return temp.ToList();
         }
 
+        public Customer GetByUsername(string custUsername)
+        {
+            var tempCust = db.CustomersDB
+                .Where(u => u.CustUsername == custUsername).FirstOrDefault();
+            return tempCust;
+        }
+
         public BitsAndBobsContext db
         {
             get { return Context as BitsAndBobsContext; }

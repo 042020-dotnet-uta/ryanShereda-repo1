@@ -10,7 +10,7 @@ namespace BitsAndBobs.WebApp.Models
 {
     public class LocationOrderViewModel
     {
-        public Location Loc { get; set; }
+        public int LocID { get; set; }
 
         public SelectList Customers { get; set; }
 

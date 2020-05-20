@@ -12,6 +12,8 @@ namespace BitsAndBobs.BusinessLogic.RepositoryInterfaces
 
         bool IsAvailable(string custUsername);
 
+        Customer GetByUsername(string custUsername);
+
         IEnumerable<string> GetAllUsernames();
     }
 }
