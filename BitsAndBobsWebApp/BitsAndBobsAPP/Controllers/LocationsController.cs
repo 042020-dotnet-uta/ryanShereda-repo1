@@ -107,6 +107,7 @@ namespace BitsAndBobs.WebApp.Controllers
             if (!(lovm.OrderCustomerUsername == "No selection"))
             {
                 var tempCust = _unitOfWork.Customers.GetByUsername(lovm.OrderCustomerUsername);
+                newOrder.OrderCustomer = tempCust;
 
                 if ((lovm.Quantity1 > 0) || (lovm.Quantity2 > 0) || (lovm.Quantity3 > 0) || (lovm.Quantity4 > 0) || (lovm.Quantity5 > 0))
                 {
@@ -117,6 +118,7 @@ namespace BitsAndBobs.WebApp.Controllers
                             LinePrice = (filteredInventory[0].InventoryProduct.ProductPrice * lovm.Quantity1) 
                         };
                     newOrder.OrderLineItems.Add(line1);
+                    _unitOfWork.Inventories.ReduceStock(filteredInventory[0].InventoryID, lovm.Quantity1);
 
                     newOrder.OrderLineItems.Add(new OrderLineItem() 
                     { 
@@ -124,24 +126,28 @@ namespace BitsAndBobs.WebApp.Controllers
                         Quantity = lovm.Quantity2,
                         LinePrice = (filteredInventory[1].InventoryProduct.ProductPrice * lovm.Quantity2) 
                     });
+                    _unitOfWork.Inventories.ReduceStock(filteredInventory[1].InventoryID, lovm.Quantity2);
                     newOrder.OrderLineItems.Add(new OrderLineItem() 
                     { 
                         LineItemProduct = filteredInventory[2].InventoryProduct,
                         Quantity = lovm.Quantity3,
                         LinePrice = (filteredInventory[2].InventoryProduct.ProductPrice * lovm.Quantity3) 
                     });
+                    _unitOfWork.Inventories.ReduceStock(filteredInventory[2].InventoryID, lovm.Quantity3);
                     newOrder.OrderLineItems.Add(new OrderLineItem() 
                     { 
                         LineItemProduct = filteredInventory[3].InventoryProduct,
                         Quantity = lovm.Quantity4,
                         LinePrice = (filteredInventory[3].InventoryProduct.ProductPrice * lovm.Quantity4) 
                     });
+                    _unitOfWork.Inventories.ReduceStock(filteredInventory[3].InventoryID, lovm.Quantity4);
                     newOrder.OrderLineItems.Add(new OrderLineItem() 
                     { 
                         LineItemProduct = filteredInventory[4].InventoryProduct,
                         Quantity = lovm.Quantity5,
                         LinePrice = (filteredInventory[4].InventoryProduct.ProductPrice * lovm.Quantity5) 
                     });
+                    _unitOfWork.Inventories.ReduceStock(filteredInventory[4].InventoryID, lovm.Quantity5);
 
                     _unitOfWork.Orders.Add(newOrder);
                     _unitOfWork.Complete();
