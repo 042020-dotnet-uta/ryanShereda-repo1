@@ -7,74 +7,65 @@
 <h2>Place New Order</h2>
 <hr />
 
-        <form asp-action="Order">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.FilteredInventory[0].InventoryProduct.ProductName)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.FilteredInventory[0].InventoryProduct.ProductPrice)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.FilteredInventory[0].QuantityAvailable)
-                        </th>
-                        <th>
-                            Quantity to Order:
-                        </th>
-                        <th>
-                            Line total:
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (int i = 1; i <= Model.FilteredInventory.Count(); i++)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => Model.FilteredInventory[i-1].InventoryProduct.ProductName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => Model.FilteredInventory[i-1].InventoryProduct.ProductPrice)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => Model.FilteredInventory[i-1].QuantityAvailable)
-                            </td>
-                            <td>
-                                <input asp-for="Quantity[@i]" class="form-control" />
-                                <span asp-validation-for="Quantity[@i]" class="text-danger"></span>
-                            </td>
-                            <td>
-                                <!--Totals-->
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+<form asp-action="Order">
+    <p>
+        Customer placing order: 
+        <select asp-for="OrderCustomerUsername" asp-items="Model.Customers">
+            <option value="">No selection</option>
+        </select>
+    </p>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FilteredInventory[0].InventoryProduct.ProductName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FilteredInventory[0].InventoryProduct.ProductPrice)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FilteredInventory[0].QuantityAvailable)
+                </th>
+                <th>
+                    Quantity to Order:
+                </th>
+                <!--<th>
+                    Line total:
+                </th>-->
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 1; i <= Model.FilteredInventory.Count(); i++)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.FilteredInventory[i - 1].InventoryProduct.ProductName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.FilteredInventory[i - 1].InventoryProduct.ProductPrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.FilteredInventory[i - 1].QuantityAvailable)
+                    </td>
+                    <td>
+                        <input asp-for="Quantity[@i]" class="form-control" />
+                        <span asp-validation-for="Quantity[@i]" class="text-danger"></span>
+                    </td>
+                    <!--<td>
+                        <p>@((Model.FilteredInventory[i - 1].InventoryProduct.ProductPrice))</p>
+                    </td>-->
+                </tr>
+            }
+        </tbody>
+    </table>
 
-            <!--
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="form-group">
-        <label asp-for="Quantity1" class="control-label"></label>
-        <input asp-for="Quantity1" class="form-control" />
-        <span asp-validation-for="Quantity1" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Quantity2" class="control-label"></label>
-        <input asp-for="Quantity2" class="form-control" />
-        <span asp-validation-for="Quantity2" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Quantity3" class="control-label"></label>
-        <input asp-for="Quantity3" class="form-control" />
-        <span asp-validation-for="Quantity3" class="text-danger"></span>
-    </div>
+    
     <div class="form-group">
         <input type="submit" value="Place Order" class="btn btn-primary" />
     </div>
-        -->
-        </form>
+        
+</form>
 <div>
     <a asp-action="Index">Back to Index</a>
 </div>

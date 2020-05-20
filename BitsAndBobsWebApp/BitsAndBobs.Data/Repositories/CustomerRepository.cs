@@ -29,6 +29,14 @@ namespace BitsAndBobs.Data.Repositories
             return available;
         }
 
+        public IEnumerable<string> GetAllUsernames()
+        {
+            var temp = from u in db.CustomersDB select u.CustUsername;
+
+
+            return temp.ToList();
+        }
+
         public BitsAndBobsContext db
         {
             get { return Context as BitsAndBobsContext; }
